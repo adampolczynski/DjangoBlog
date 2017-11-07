@@ -1,0 +1,18 @@
+{% load compress %}
+
+<html>
+    <head>
+        {% compress css %}
+		<link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css" type="text/css" charset="utf-8">
+		<style type="text/css">p { border:5px solid green;}</style>
+		<link rel="stylesheet" href="/static/css/blog-home.css" type="text/css" charset="utf-8">
+		{% endcompress %}
+		<title>{% block head_title %}BlogProject{% endblock %}</title>
+
+    </head>
+    <body>
+        {% block content %}
+
+        {% endblock %}
+    </body>
+</html>
