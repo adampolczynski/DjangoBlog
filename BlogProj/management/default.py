@@ -43,7 +43,7 @@ INSTALLED_APPS = (
     # 'sendfile',
     'debug_toolbar',
     'compressor',
-    #'registration', # there is a problem because django v1.9 is not yet supported
+    'registration', # there is a problem because django v1.9 is not yet supported
     'BlogProj',
     'blog',
     'articles',

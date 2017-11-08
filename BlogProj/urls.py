@@ -9,9 +9,9 @@ if settings.DEBUG:			# because of jdtd template rendering error while DEBUG true
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', blogviews.index),
-	url(r'^blog/(?P<slug>[^\.]+).html', 
+	url(r'^post/(?P<slug>[^\.]+)/', 
     	blogviews.view_post, 
-    	name='view_blog_entry'),
+    	name='view_entry'),
     
     url(r'^__debug__/', include(debug_toolbar.urls)), # look up, below imports
 ]

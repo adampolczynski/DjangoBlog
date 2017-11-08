@@ -8,6 +8,6 @@ def index(request):
     })
 
 def view_post(request, slug):   
-    return render_to_response('view_entry.html', {
+    return render_to_response('entry.html', {
         'post': get_object_or_404(Entry, slug=slug)
     })
