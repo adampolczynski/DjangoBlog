@@ -12,4 +12,4 @@ def view_post(request, slug):
     return render_to_response('entry.html', {
         'post': get_object_or_404(Entry, slug=slug),
         'type': 'entry'
-    })
+    }, context_instance=RequestContext(request))

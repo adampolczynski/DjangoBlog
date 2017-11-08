@@ -15,7 +15,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
-    url(r'^accounts/', include('registration.backends.simple.urls')), #django registration
+    url(r'^accounts/', include('registration.backends.simple.urls',)),
+    url(r'^allauth/', include('allauth.urls',)), #django registration
 
     url(r'^entries/', blogentry.index),
     url(r'^articles/', blogarticle.index),

@@ -1,11 +1,13 @@
 {% load compress %}
-
+{% load socialaccount %}
 <html>
 <head>
 	{% compress css %}
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css" charset="utf-8">
+	<link rel="stylesheet" href="/static/css/font-awesome.min.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="/static/css/blog-home.css" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="/static/css/align.css" type="text/css" charset="utf-8">
+	<script src="/static/js/tether.min.js"></script>
 	<script src="/static/js/jquery-3.2.1.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	{% endcompress %}
@@ -35,9 +37,17 @@
 				{% if request.user.is_authenticated %}
 				<p class="text-muted">Logged as {{ request.user.username }}</p>
 				<li class="nav-item">
-					<a class="nav-link" href="/accounts/logout/">Logout</a>
+					<a class="nav-link"  href="{% url 'auth_logout' %}?next=/"> Logout</a>
 				</li>
 				{% else %}
+				<a href="{% provider_login_url "facebook" method="oauth2" %}">
+					<i class="fa fa-facebook-square fa-3x" aria-hidden="true"></i>
+
+				</a>
+				<a href="{% provider_login_url "twitter" method="oauth2" %}">
+					<i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i>
+
+				</a>
 				<li class="nav-item">
 					<a class="nav-link" href="/accounts/login/">Login</a>
 				</li>

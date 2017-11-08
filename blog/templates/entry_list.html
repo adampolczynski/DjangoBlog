@@ -17,17 +17,17 @@
           <h2 class="card-title">{{ post.title }}</h2>
           <hr>
           <p class="card-text">{{ post.body }}</p>
-
+          <hr>
           <div class="btn-group m-b-s">
             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Show me whole entry</a>
 
-            <a class="btn btn-primary" data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
+            <a class="btn btn-primary" data-toggle="collapse" href="#comments{{ post.id }}" aria-expanded="false" aria-controls="comments{{ post.id }}">
               Show da comments
             </a>
 
           </div>
         </div>
-          <div class="collapse" id="comments">
+          <div class="collapse" id="comments{{ post.id }}">
             <div class="card card-block">
               <!-- below were submitting comment by POST together with post.id -->      
               <form class="form-group" method='POST' action='/add_comment/'> 

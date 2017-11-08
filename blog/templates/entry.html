@@ -16,7 +16,7 @@
           <h2 class="card-title">{{ post.title }}</h2>
           <hr>
           <p class="card-text">{{ post.body }}</p>
-
+          <hr>
           <div class="btn-group m-b-s">
             <a class="btn btn-primary" href="/">Go to main page</a>
 
@@ -26,6 +26,21 @@
 
           </div>
         </div>
+        <div class="collapse" id="comments">
+            <div class="card card-block">
+              <!-- below were submitting comment by POST together with post.id -->      
+              <form class="form-group" method='POST' action='/add_comment/'> 
+                {% csrf_token %}
+                <input type='hidden' value='{{ post.id }}' name='id'>
+                <input type='hidden' value='{{ type }}' name='type'>
+
+                <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
+
+                <button type="submit" class="btn btn-success green form-control"> Add comment</button>
+              </form>
+            </div>
+
+          </div>
         <div class="card-footer text-muted">
           Created: {{ post.created }}
         </div>
