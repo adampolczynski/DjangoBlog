@@ -27,34 +27,48 @@
 
           </div>
         </div>
-          <div class="collapse" id="comments{{ post.id }}">
-            <div class="card card-block">
-              <!-- below were submitting comment by POST together with post.id -->      
-              <form class="form-group" method='POST' action='/add_comment/'> 
-                {% csrf_token %}
-                <input type='hidden' value='{{ post.id }}' name='id'>
-                <input type='hidden' value='{{ type }}' name='type'>
+        <div class="collapse" id="comments{{ post.id }}">
+          <div class="card card-block">
+            <!-- below were submitting comment by POST together with post.id -->      
+            <form class="form-group" method='POST' action='/add_comment/'> 
+              {% csrf_token %}
+              <input type='hidden' value='{{ post.id }}' name='id'>
+              <input type='hidden' value='{{ type }}' name='type'>
 
-                <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
+              <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
 
-                <button type="submit" class="btn btn-success green form-control"> Add comment</button>
-              </form>
-            </div>
+              <button type="submit" class="btn btn-success green form-control"> Add comment</button>
+            </form>
+            
+            <ul class="list-group list-group-flush">
+              {% if post.comments.all %}
+              {% for comment in post.comments.all|dictsortreversed:"id" %}
+              <li class="list-group-item">{{ comment.body }}</li>
+              {% endfor %}
+              {% else %}
+              <li class="list-group-item">No comments for now</li>
+
+              {% endif %}
+            </ul>
+
+
 
           </div>
-          <div class="card-footer text-muted">
-            Created: {{ post.created }}
-          </div>
+
+        </div>
+        <div class="card-footer text-muted">
+          Created: {{ post.created }} , comments count: {{ post.comments_count }}
         </div>
       </div>
+    </div>
 
 
-      {% endfor %}
+    {% endfor %}
 
-      {% else %}
-      <p>There are no posts.</p>
-      {% endif %}
-      <!-- Sidebar Widgets Column -->
+    {% else %}
+    <p>There are no posts.</p>
+    {% endif %}
+    <!-- Sidebar Widgets Column -->
 <!--   <div class="col-md-4">
     some potential widget here
   </div> -->

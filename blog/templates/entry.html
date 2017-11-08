@@ -38,6 +38,16 @@
 
                 <button type="submit" class="btn btn-success green form-control"> Add comment</button>
               </form>
+              <ul class="list-group list-group-flush">
+              {% if post.comments.all %}
+              {% for comment in post.comments.all|dictsortreversed:"id" %}
+              <li class="list-group-item">{{ comment.body }}</li>
+              {% endfor %}
+              {% else %}
+              <li class="list-group-item">No comments for now</li>
+
+              {% endif %}
+            </ul>
             </div>
 
           </div>
