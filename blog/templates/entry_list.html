@@ -4,8 +4,8 @@
 {% block content %}
 <!-- Page Content -->
 <div class="container">
-  <h1 class="my-4">My blog
-    <small>entries</small>
+  <h1 class="my-4">My blog {{type}}
+    <small>, written in dżango</small>
   </h1>
   <div class="row">
     {% if posts %}
@@ -17,21 +17,23 @@
           <h2 class="card-title">{{ post.title }}</h2>
           <hr>
           <p class="card-text">{{ post.body }}</p>
-          <a href="{{ post.get_absolute_url }}">Show me whole entry</a></div>
-          
-          <p>
+
+          <div class="btn-group m-b-s">
+            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Show me whole entry</a>
+
             <a class="btn btn-primary" data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
               Show da comments
             </a>
 
-          </p>
+          </div>
+        </div>
           <div class="collapse" id="comments">
             <div class="card card-block">
               <!-- below were submitting comment by POST together with post.id -->      
               <form class="form-group" method='POST' action='/add_comment/'> 
                 {% csrf_token %}
                 <input type='hidden' value='{{ post.id }}' name='id'>
-                <input type='hidden' value='entry' name='type'>
+                <input type='hidden' value='{{ type }}' name='type'>
 
                 <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
 
