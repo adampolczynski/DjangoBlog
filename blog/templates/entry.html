@@ -10,19 +10,21 @@
   <div class="row">
     {% if post %}
 
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="card mb-4">
-        <div class="card-body">
+        <div class="card-body m-t-s" style="padding-left: 15px">
           <h2 class="card-title">{{ post.title }}</h2>
+          <hr>
           <p class="card-text">{{ post.body }}</p>
-        </div>
-        <div class="btn-group m-b-s">
-          <a class="btn btn-primary" href="/">Go to main page</a>
 
-          <a class="btn btn-primary" data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
-            Show da comments
-          </a>
+          <div class="btn-group m-b-s">
+            <a class="btn btn-primary" href="/">Go to main page</a>
 
+            <a class="btn btn-primary" data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
+              Show da comments
+            </a>
+
+          </div>
         </div>
         <div class="card-footer text-muted">
           Created: {{ post.created }}
@@ -30,11 +32,11 @@
         
       </div>
     </div>
+
     {% endif %}
     <!-- Sidebar Widgets Column -->
-    <div class="col-md-4">
+ <!--    <div class="col-md-4">
 
-      <!-- Search Widget -->
       <div class="card my-4">
         <h5 class="card-header">Search</h5>
         <div class="card-body">
@@ -46,7 +48,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
 </div>

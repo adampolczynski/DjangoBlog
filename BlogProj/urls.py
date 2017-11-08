@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
+# importing views
 from blog import views as blogentry
 from articles import views as blogarticle
 from comments.views import CommentView
@@ -10,6 +13,10 @@ if settings.DEBUG:			# because of jdtd template rendering error while DEBUG true
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^accounts/', include('registration.backends.simple.urls')), #django registration
+
     url(r'^entries/', blogentry.index),
     url(r'^articles/', blogarticle.index),
 	url(r'^entry/(?P<slug>[^\.]+)/',  # for single entry

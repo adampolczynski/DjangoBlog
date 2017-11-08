@@ -28,6 +28,7 @@ SECRET_KEY = env('SECRET_KEY')
 SITE_ID = env('SITE_ID')
 
 INSTALLED_APPS = (
+    'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,12 +38,17 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'compressor',
-    'registration',
+    #'registration', while using one-step workflow it is not necessary
     'celery',
     'BlogProj',
     'blog',
     'articles',
     'comments',
+    'allauth', #all auth
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
 )
 
 # --- STATIC FILES ---

@@ -31,6 +31,21 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/products/">Products</a>
 				</li>
+				<li class="nav-item"></li>
+				{% if request.user.is_authenticated %}
+				<p class="text-muted">Logged as {{ request.user.username }}</p>
+				<li class="nav-item">
+					<a class="nav-link" href="/accounts/logout/">Logout</a>
+				</li>
+				{% else %}
+				<li class="nav-item">
+					<a class="nav-link" href="/accounts/login/">Login</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/accounts/register/">Register</a>
+				</li>
+				{% endif %}
+				
 			</ul>
 			<form class="form-inline my-2 my-lg-0">
 				<input class="form-control mr-sm-2" type="text" placeholder="Search">
