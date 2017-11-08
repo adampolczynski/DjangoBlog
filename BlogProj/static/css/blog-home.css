@@ -5,14 +5,11 @@
  */
 
 body {
-  padding-top: 24px;
-  padding-bottom: 10px;
   background-color: grey;
 }
 
 @media (min-width: 992px) {
   body {
-    padding-top: 26px;
 	padding-bottom: 10px;
   }
 }

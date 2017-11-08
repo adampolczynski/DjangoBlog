@@ -35,24 +35,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-
-    # 'mailqueue',
-    # 'rosetta',
-    # 'widget_tweaks',
-    # 'stdimage',
-    # 'sendfile',
     'debug_toolbar',
     'compressor',
-    'registration', # there is a problem because django v1.9 is not yet supported
+    'registration',
+    'celery',
     'BlogProj',
     'blog',
     'articles',
     'comments',
-    #'auth_ex',
 )
-# for the moment it is not necessary
-# AUTH_USER_MODEL = 'auth_ex.User'
-# LOGIN_REDIRECT_URL = '/admin/'
 
 # --- STATIC FILES ---
 STATIC_URL = '/static/'
@@ -111,13 +102,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 LANGUAGE_CODE = 'en-us'
-# LANGUAGES = (
-#     ('en', _('English')),
-#     ('pl', _('Polish')),
-# )
-# LOCALE_PATHS = (
-#     path.join(BASE_DIR, 'locale'),
-# )
+
 
 # --- FILE UPLOAD ---
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440  # i.e. 2.5 MB
@@ -169,23 +154,4 @@ REGISTRATION_AUTO_LOGIN = False
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 INTERNAL_IPS = ['127.0.0.1']
 
-# --- SENTRY ---
-# INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
-# RAVEN_CONFIG = {
-#     'dsn': '',
-# }
-# LOGGING['handlers']['sentry'] = {
-#     'class': 'raven.handlers.logging.SentryHandler',
-#     'level': 'WARNING',
-# }
-# LOGGING['loggers'][''] = {
-#     'handlers': ['console', 'sentry'],
-#     'level': 'DEBUG',
-#     'propagate': False,
-# }
-# LOGGING['loggers']['Blog'] = {
-#     'handlers': ['sentry'],
-#     'level': 'INFO',
-#     'propagate': True,
-#     'formatter': 'simple',
-# }
+

@@ -4,30 +4,23 @@
 {% block content %}
 <!-- Page Content -->
 <div class="container">
-    <h1 class="my-4">Entries on my blog
-        <small>and articles</small>
+    <h1 class="my-4">Displaying single entry
+        <small>right now</small>
     </h1>
     <div class="row">
-        {% if posts %}
-        {% for post in posts %}
+        {% if post %}
 
         <div class="col-md-8">
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title">{{ post.title }}</h2>
                     <p class="card-text">{{ post.body }}</p>
-                    <a href="{{ post.get_absolute_url }}">Show me whole entry</a></div>
+					</div>
                     <div class="card-footer text-muted">
                       Created: {{ post.created }}
                   </div>
               </div>
           </div>
-
-
-          {% endfor %}
-
-          {% else %}
-          <p>There are no posts.</p>
           {% endif %}
           <!-- Sidebar Widgets Column -->
           <div class="col-md-4">

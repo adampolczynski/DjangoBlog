@@ -1,11 +1,12 @@
+from django.shortcuts import render_to_response, get_object_or_404
+from django.template import RequestContext
 from .models import Entry
 import articles
-from django.shortcuts import render_to_response, get_object_or_404
 
 def index(request):
-    return render_to_response('index.html', {
-        'posts': Entry.objects.all()[:5]
-    })
+    return render_to_response('entry_list.html', {
+        'posts': Entry.past_objects.all()[:5]
+    }, context_instance=RequestContext(request)) # because of csfr token, have to update because deprecated
 
 def view_post(request, slug):   
     return render_to_response('entry.html', {
