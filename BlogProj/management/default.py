@@ -5,14 +5,12 @@ Crate a local.py in this same folder to set your local settings.
 
 """
 
-#should i create settings.py that overrides this default?
-
 from os import path
 from django.utils.translation import ugettext_lazy as _
 import environ 
 
 root = environ.Path(__file__) - 3
-env = environ.Env(DEBUG=(bool, True), ) # uncomment later, think about environ
+env = environ.Env(DEBUG=(bool, True), )
 environ.Env.read_env(env_file=root('.env'))
 BASE_DIR = root()
 
@@ -29,6 +27,9 @@ SITE_ID = env('SITE_ID')
 
 INSTALLED_APPS = (
     'suit',
+    'hijack',
+    'compat',
+    'hijack_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,18 +37,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'debug_toolbar',
-    'compressor',
-    'haystack',
-    #'registration', while using one-step workflow it is not necessary
-    'hijack',
-    'hijack_admin',
-    'compat',
-    'celery',
     'BlogProj',
     'blog',
     'articles',
     'comments',
+    'debug_toolbar',
+    'compressor',
+    'haystack',
+    #'registration', while using one-step workflow it is not necessary
+
+    'celery',
     'allauth', #all auth
     'allauth.account',
     'allauth.socialaccount',
@@ -59,9 +58,10 @@ HIJACK_LOGIN_REDIRECT_URL = '/'  # Where admins are redirected to after hijackin
 HIJACK_LOGOUT_REDIRECT_URL = '/admin/auth/user/'  # Where admins are redirected to after releasing a user
 HIJACK_ALLOW_GET_REQUESTS = True
 HIJACK_USE_BOOTSTRAP = True
+
 # --- STATIC FILES ---
 STATIC_URL = '/static/'
-STATIC_ROOT = env('STATIC_ROOT', default=(root - 1)('static'))
+STATIC_ROOT = env('STATIC_ROOT', default=(root)('static'))
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -171,8 +171,7 @@ DATABASES = {
         #default='postgres://postgres:@localhost:5432/postgres'),
 
 }
-# broker rabbitmq
-#broker_url = 'amqp://myuser:mypassword@localhost:5672/myvhost'
+# broker for celery tasks
 BROKER_URL = 'django://'
 
 #haystack configuration
