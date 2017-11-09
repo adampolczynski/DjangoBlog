@@ -27,30 +27,42 @@
           </div>
         </div>
         <div class="collapse" id="comments">
-            <div class="card card-block">
-              <!-- below were submitting comment by POST together with post.id -->      
-              <form class="form-group" method='POST' action='/add_comment/'> 
-                {% csrf_token %}
-                <input type='hidden' value='{{ post.id }}' name='id'>
-                <input type='hidden' value='{{ type }}' name='type'>
+          <div class="card card-block">
+            <form class="form-group" method='POST' action='/add_comment/'> 
+              {% csrf_token %}
+              <input type='hidden' value='{{ post.id }}' name='id'>
+              {% if request.user.is_authenticated %}
+              <input type='hidden' value='{{ request.user.username }}' name='user'>
 
-                <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
-
-                <button type="submit" class="btn btn-success green form-control"> Add comment</button>
-              </form>
-              <ul class="list-group list-group-flush">
-              {% if post.comments.all %}
-              {% for comment in post.comments.all|dictsortreversed:"id" %}
-              <li class="list-group-item">{{ comment.body }}</li>
-              {% endfor %}
               {% else %}
-              <li class="list-group-item">No comments for now</li>
+              <input type='hidden' value='guest' name='user'>
 
               {% endif %}
-            </ul>
-            </div>
+              <input type='hidden' value='{{ type }}' name='type'>
+
+              <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
+
+              <button type="submit" class="btn btn-success green form-control"> Add comment</button>
+            </form>
+            <ul class="list-group list-group-flush">
+              {% if post.comments %}
+              {% for comment in post.comments.all|dictsortreversed:"id" %}
+              <li class="list-group-item">
+                {{ comment.body }}
+                <a style="margin-left: 10%; color: green;"> <!-- not really important for now -->
+                  ~{{ comment.user }}
+                </a></li>
+                {% endfor %}
+                {% else %}
+                <li class="list-group-item">No comments for now</li>
+
+                {% endif %}
+              </ul>
+            <!-- below were submitting comment by POST together with post.id -->      
 
           </div>
+
+        </div>
         <div class="card-footer text-muted">
           Created: {{ post.created }}
         </div>

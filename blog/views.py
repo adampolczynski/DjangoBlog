@@ -5,7 +5,7 @@ from django.template.loader import get_template
 
 
 def index(request):
-	# template = get_template('entry_list.html')
+	# template = get_template('entry_list.html') # actual way for template rendering, apply this
 	# html = template.render({'posts': Entry.past_objects.all()[:5], 'type':'entry'})
     return render_to_response('entry_list.html', {
         'posts': Entry.past_objects.all()[:5],
@@ -18,7 +18,7 @@ def view_post(request, slug):
         'type': 'entry'
     }, context_instance=RequestContext(request)) # upgrade this
 
-def entries(request):
+def entries(request): # haystack view for custom form
     form = EntriesSearchForm(request.GET)
-    notes = form.search()
-    return render_to_response('search_result.html', {'entrys': entry})
+    entrys = form.search()
+    return render_to_response('search_result.html', {'entrys': entrys})

@@ -1,4 +1,6 @@
 {% load compress %}
+{% load staticfiles %}
+{% load hijack_tags %}
 
 <html>
 <head>
@@ -12,6 +14,11 @@
 	<script src="/static/js/bootstrap.min.js"></script>
 	{% endcompress %}
 	<title>{% block head_title %}Demo DjangoBlog{% endblock %}</title>
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
+
+
 
 </head>
 <body>
@@ -53,13 +60,15 @@
 				{% endif %}
 				
 			</ul>
-			<form class="form-inline my-2 my-lg-0" type="get" action=".">
+			<form class="form-inline my-2 my-lg-0" type="get" action="/search/.">
 				<input class="form-control mr-sm-2" type="text" placeholder="Search" name="q">
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 
 		</div>
 	</nav>
+		{% hijack_notification %}
+
 	{% block content %}
 
 	{% endblock %}

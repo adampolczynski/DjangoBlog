@@ -11,7 +11,7 @@ from comments.views import CommentView
 if settings.DEBUG:			# because of jdtd template rendering error while DEBUG true
 	import debug_toolbar
 
-urlpatterns = [
+urlpatterns = [ # need to clean those urls, it is messy
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
@@ -32,3 +32,6 @@ urlpatterns = [
     url(r'^', blogentry.index), # if nothing matches then go to entries index
     url(r'^__debug__/', include(debug_toolbar.urls)), # look up, below imports
 ]
+
+urlpatterns += url(r'^hijack/', include('hijack.urls')), # for logging as other user
+
