@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Questions</title>
-    </head>
-    <body>
-        {% block content %}
+{% extends 'base.html' %}
+
+{% block content %}
     <h2>Search</h2>
 
     <form method="get" action=".">
@@ -42,5 +37,3 @@
         {% endif %}
     </form>
 {% endblock %}
-</body>
-</html>

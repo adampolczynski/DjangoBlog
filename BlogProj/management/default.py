@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'debug_toolbar',
     'compressor',
+    'haystack',
     #'registration', while using one-step workflow it is not necessary
     'celery',
     'BlogProj',
@@ -49,7 +50,6 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
-    'haystack',
 )
 
 # --- STATIC FILES ---
@@ -172,7 +172,7 @@ BROKER_URL = 'django://'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://127.0.0.1:8989/solr/default'
+        'URL': 'http://127.0.0.1:8983/solr/core'
     },
 }
 
