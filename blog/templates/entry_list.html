@@ -21,7 +21,7 @@
           <div class="btn-group m-b-s">
             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Show me whole entry</a>
 
-            <a class="btn btn-primary" data-toggle="collapse" href="#comments{{ post.id }}" aria-expanded="false" aria-controls="comments{{ post.id }}">
+            <a class="btn btn-success green" data-toggle="collapse" href="#comments{{ post.id }}" aria-expanded="false" aria-controls="comments{{ post.id }}">
               Show da comments
             </a>
 
@@ -41,7 +41,7 @@
             </form>
             
             <ul class="list-group list-group-flush">
-              {% if post.comments.all %}
+              {% if post.comments %}
               {% for comment in post.comments.all|dictsortreversed:"id" %}
               <li class="list-group-item">{{ comment.body }}</li>
               {% endfor %}

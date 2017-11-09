@@ -1,5 +1,5 @@
 {% load compress %}
-{% load socialaccount %}
+
 <html>
 <head>
 	{% compress css %}
@@ -11,7 +11,7 @@
 	<script src="/static/js/jquery-3.2.1.min.js"></script>
 	<script src="/static/js/bootstrap.min.js"></script>
 	{% endcompress %}
-	<title>{% block head_title %}Demo Blog{% endblock %}</title>
+	<title>{% block head_title %}Demo DjangoBlog{% endblock %}</title>
 
 </head>
 <body>
@@ -19,7 +19,7 @@
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="#">Demo Blog</a>
+		<a class="navbar-brand" href="#">Demo DjangoBlog</a>
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
@@ -33,21 +33,17 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/products/">Products</a>
 				</li>
-				<li class="nav-item"></li>
+				<li class="nav-item" style="width: 40px;">
+				</li>
 				{% if request.user.is_authenticated %}
-				<p class="text-muted">Logged as {{ request.user.username }}</p>
+				<li class="nav-item">
+					<p class="text-success">Logged as {{ request.user.username }}</p>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link"  href="{% url 'auth_logout' %}?next=/"> Logout</a>
 				</li>
 				{% else %}
-				<a href="{% provider_login_url "facebook" method="oauth2" %}">
-					<i class="fa fa-facebook-square fa-3x" aria-hidden="true"></i>
-
-				</a>
-				<a href="{% provider_login_url "twitter" method="oauth2" %}">
-					<i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i>
-
-				</a>
+				
 				<li class="nav-item">
 					<a class="nav-link" href="/accounts/login/">Login</a>
 				</li>
@@ -57,10 +53,11 @@
 				{% endif %}
 				
 			</ul>
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="text" placeholder="Search">
+			<form class="form-inline my-2 my-lg-0" type="get" action=".">
+				<input class="form-control mr-sm-2" type="text" placeholder="Search" name="q">
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
+
 		</div>
 	</nav>
 	{% block content %}

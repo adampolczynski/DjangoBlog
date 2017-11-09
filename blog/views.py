@@ -1,8 +1,12 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from .models import Entry
-from comments.models import Comment
+from django.template.loader import get_template
+
+
 def index(request):
+	# template = get_template('entry_list.html')
+	# html = template.render({'posts': Entry.past_objects.all()[:5], 'type':'entry'})
     return render_to_response('entry_list.html', {
         'posts': Entry.past_objects.all()[:5],
         'type': 'entry'
@@ -13,3 +17,8 @@ def view_post(request, slug):
         'post': get_object_or_404(Entry, slug=slug),
         'type': 'entry'
     }, context_instance=RequestContext(request)) # upgrade this
+
+def entries(request):
+    form = EntriesSearchForm(request.GET)
+    notes = form.search()
+    return render_to_response('search_result.html', {'entrys': entry})

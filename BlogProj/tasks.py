@@ -1,13 +1,27 @@
+# Create your tasks here
+from __future__ import absolute_import, unicode_literals
+from celery import shared_task
 from celery.decorators import task
-from celery.utils.log import get_task_logger
 from blog.models import Entry
 
-logger = get_task_logger(__name__)
+@shared_task
+def add(x, y):
+    return x + y
 
 
-@task(name="send_feedback_email_task")
+@shared_task
+def mul(x, y):
+    return x * y
+
+
+@shared_task
+def xsum(numbers):
+    return sum(numbers)
+
+@task
 def count_comments_for_entry(id):
     """sends an email when feedback form is filled successfully"""
-    Entry.objects.filter(pk=id).update(comments_count=F('comments_count')+1)
-    logger.info("id of news")
-    return print('print')
+    entry = Entry.objects.get(pk=id)#.update(comments_count=4)#F('comments_count')+1)
+    entry.comments_count=entry.comments_count+1
+    entry.save()
+    return 'something'

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Welcome to da Blogg!{% endblock %}
+
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+    <h1 class="my-4">My blog
+        <small>entries</small>
+    </h1>
+    <div class="row">
+        {% if posts %}
+        {% for post in posts %}
+
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body m-t-s" style="padding-left: 15px">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <hr>
+                    <p class="card-text">{{ post.body }}</p>
+                    <a href="{{ post.get_absolute_url }}">Show me whole entry</a></div>
+                    
+                    <p>
+                      <a class="btn btn-primary" data-toggle="collapse" href="#comments" aria-expanded="false" aria-controls="comments">
+                        Show da comments
+                    </a>
+
+                </p>
+                <div class="collapse" id="comments">
+                  <div class="card card-block">
+                    <!-- below were submitting comment by POST together with post.id -->      
+                    <form class="form-group" method='POST' action='/add_comment/'> 
+                        {% csrf_token %}
+                        <input type='hidden' value='{{ post.id }}' name='id'>
+                        <input type='hidden' value='entry' name='type'>
+
+                        <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
+
+                        <button type="submit" class="btn btn-success green form-control"> Add comment</button>
+                    </form>
+                </div>
+
+            </div>
+            <div class="card-footer text-muted">
+              Created: {{ post.created }}
+          </div>
+      </div>
+  </div>
+
+
+  {% endfor %}
+
+  {% else %}
+  <p>There are no posts.</p>
+  {% endif %}
+  <!-- Sidebar Widgets Column -->
+  <div class="col-md-4">
+    some potential widget here
+  </div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+{% endblock %}

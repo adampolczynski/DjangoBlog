@@ -2,8 +2,8 @@ from django.shortcuts import render
 from .models import Comment
 from .forms import CommentForm
 from django.views.generic.edit import FormView # this time class based view maybe
-import blog
-import articles
+from blog.models import Entry
+from articles.models import Article
 # Create your views here.
 
 class CommentView(FormView):
@@ -15,12 +15,12 @@ class CommentView(FormView):
 		our_type = form.cleaned_data['type']
 
 		if (our_type=='entry'): # if it is entry were referencing entry
-			entry = blog.models.Entry.objects.only('id').get(id=our_id)
+			entry = Entry.objects.only('id').get(id=our_id)
 			comment = Comment(
 			body=form.cleaned_data['body'],
 			entry=entry)
 		else: # else we refer to article
-			article = articles.models.Entry.objects.only('id').get(id=our_id)
+			article = Article.objects.only('id').get(id=our_id)
 			comment = Comment(
 			body=form.cleaned_data['body'],
 			article=article)

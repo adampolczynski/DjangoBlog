@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/', include('registration.backends.simple.urls',)),
     url(r'^allauth/', include('allauth.urls',)), #django registration
-
+    url(r'^search/', include('haystack.urls')),
     url(r'^entries/', blogentry.index),
     url(r'^articles/', blogarticle.index),
 	url(r'^entry/(?P<slug>[^\.]+)/',  # for single entry

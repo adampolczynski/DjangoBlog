@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
+    'haystack',
 )
 
 # --- STATIC FILES ---
@@ -160,8 +161,20 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = None
 DATABASES = {
     'default': env.db(
         default='postgres://soixvngf:eoXGFRZbpl8UH25E_w7CUnQPQfx_97MM@baasu.db.elephantsql.com:5432/soixvngf'),
-}
+        #default='postgres://postgres:@localhost:5432/postgres'),
 
+}
+# broker rabbitmq
+#broker_url = 'amqp://myuser:mypassword@localhost:5672/myvhost'
+BROKER_URL = 'django://'
+
+#haystack configuration
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://127.0.0.1:8989/solr/default'
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -183,7 +196,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # --- DJANGO COMPRESSOR ---
-# STATICFILES_FINDERS += ('compressor.finders.CompressorFinder',)
+STATICFILES_FINDERS += ('compressor.finders.CompressorFinder',)
 
 # --- CACHE ---
 # {

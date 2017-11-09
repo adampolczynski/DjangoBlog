@@ -2,12 +2,16 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from datetime import date
 # Create your models here.
+
 class PastEntry(models.Manager): # manager that filters objects by time less than today
+	
 	def get_queryset(self):
 		today = date.today()
-		return super(PastEntry, self).get_queryset().filter(published__gt=today)
+		return super(PastEntry, self).get_queryset().filter(published__lt=today).order_by('-id')
 
 class Entry(models.Model):
+	class Meta:
+		ordering = ["-id"] # ordering by ID, but were not using this default manager so...
 	title = models.CharField(max_length=50, unique=True)
 	slug = models.SlugField()
 	body = models.TextField()
