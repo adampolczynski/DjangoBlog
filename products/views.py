@@ -27,5 +27,4 @@ def index(request):
 		"products": products,
 		}
 		template = "products.html"
-		print('oto sobie printuje GET')
 		return render_to_response(template,context,context_instance=RequestContext(request))

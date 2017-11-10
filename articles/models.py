@@ -5,13 +5,13 @@ from datetime import date
 class PastArticle(models.Manager): # manager that filters objects by time less than today
 	def get_queryset(self):
 		today = date.today()
-		return super(PastArticle, self).get_queryset().filter(published__lt=today).order_by('-id')
+		return super(PastArticle, self).get_queryset().filter(pub_date__lt=today).order_by('-id')
 class Article(models.Model): # differs from blog entry
 	title = models.CharField(max_length=50, unique=True)
 	slug = models.SlugField()
 	body = models.TextField()
 	created = models.DateTimeField(auto_now_add=True)
-	published = models.DateTimeField(auto_now_add=True)
+	pub_date = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
 	comments_count = models.IntegerField(default=0)
 

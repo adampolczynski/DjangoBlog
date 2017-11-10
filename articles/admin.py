@@ -4,6 +4,6 @@ from .models import Article
 
 class ArticleAdmin(admin.ModelAdmin):
 	exclude = ['posted','comments_count','slug',]
-	readonly_fields = ('published','modified',)
+	readonly_fields = ('pub_date','modified',)
 
 admin.site.register(Article, ArticleAdmin)

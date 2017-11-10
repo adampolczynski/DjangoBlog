@@ -3,23 +3,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<style>
-div.scrollmenu {
-	position: absolute;
-	width: 100%;
-	background-color: grey;
-	overflow-x: scroll;
-	white-space: nowrap;
-}
 
-div.scrollmenu {
-	display: inline-block;
-	color: white;
-	text-align: center;
-	padding: 14px;
-	text-decoration: none;
-}
-</style>
 <div class="container col-12 m-t-l" style="margin-left: 30px;">
 	
 	<div class="row">
@@ -59,7 +43,7 @@ div.scrollmenu {
 	</div>
 </div>
 <script>
-	$(document).ready(function() {
+	$(document).ready(function() { // i will keep products and counters in two arrays
 		var totalPrice = 0;
 		var products = [];
 		var productsCounter = [];
@@ -98,8 +82,11 @@ div.scrollmenu {
 				productsCounter[existsInArray]--;
 				var i = productsCounter[existsInArray];
 				if (i == 0) {
+					var index = products.indexOf(product);
+					if (index > -1) {
+						productsCounter.splice(index, 1); //resetting counter also
+					}
 					products = jQuery.grep(products, function(value) { // delete product from array
-						productsCounter[existsInArray] = 0; //resetting counter also
 						return value != product;
 					});
 				}

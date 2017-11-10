@@ -3,7 +3,7 @@ from django.conf.urls import include, url, patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-
+from django.views.static import serve
 # importing views
 from blog import views as blogentry
 from articles import views as blogarticle
@@ -33,12 +33,10 @@ urlpatterns = [ # need to clean those urls, it is messy
 
     url(r'^add_comment/$', CommentView.as_view()),
 
-    url(r'^__debug__/', include(debug_toolbar.urls)), # look up, below imports
-]
+    url(r'^__debug+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)__/', include(debug_toolbar.urls)), # look up, below imports
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #urlpatterns += url(r'^hijack/', include('hijack.urls')), # for logging as other user
 urlpatterns += url(r'^admin/', include('loginas.urls')),
-urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-        'document_root': settings.MEDIA_ROOT}))
+urlpatterns += url(r'^media/(?P<path>.*)$', serve),
 urlpatterns += url(r'^', blogentry.index), #NOTE: without $

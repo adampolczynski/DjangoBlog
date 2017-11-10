@@ -5,7 +5,7 @@ from .models import Entry
 class EntryAdmin(admin.ModelAdmin):
 	exclude = ['posted','comments_count','slug',]
 	#prepopulated_fields = {'slug': ('title',)} # not necessary while were excluding slug
-	readonly_fields = ('published','modified',)
+	readonly_fields = ('pub_date','modified',)
 	# def get_readonly_fields(self, request, obj=None): # not working with prepopulated_fields, have to do instruction
 	# 	if obj: #In edit mode
 	# 		return ('slug',)
