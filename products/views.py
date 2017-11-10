@@ -5,28 +5,27 @@ from django.views.decorators.csrf import csrf_exempt
 
 from BlogProj.tasks import send_confirmation_email
 from .models import Product
+import json
 # Create your views here.
 
 @method_decorator(csrf_exempt)
 def index(request):
-	products=Product.objects.all()
-	context = {
-	"products": products,
-	}
-	template = "products.html"
-	return render_to_response(template,context,context_instance=RequestContext(request))
-
-def submit(request):
-	if request.method == 'POST':
-		post = request.POST.get('post')
+	if request.method == 'POST': # while we're submitting basket
+		order = request.POST.get('order')
+		price = request.POST.get('price')
 		email = request.POST.get('email')
-
+		if (email != ''): # if email is not empty
+			text = "You've bought items:"+order+" , for "+price
+			send_confirmation_email(text, email)
 		return HttpResponse(
-			json.dumps({"something":email, "moreofit":"moreeeeeee"}),
+			json.dumps({"email": email}),
 			content_type="application/json"
 			)
 	else:
-		return HttpResponse(
-			json.dumps({"nothing to see": "this isn't happening"}),
-			content_type="application/json"
-			)
+		products=Product.objects.all()
+		context = {
+		"products": products,
+		}
+		template = "products.html"
+		print('oto sobie printuje GET')
+		return render_to_response(template,context,context_instance=RequestContext(request))

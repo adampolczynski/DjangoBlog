@@ -21,10 +21,9 @@ urlpatterns = [ # need to clean those urls, it is messy
     url(r'^allauth/', include('allauth.urls',)), #django registration
     url(r'^search/', include('haystack.urls')),
     url(r'^entries/', blogentry.index),
-    #url(r'^$', blogentry.index), # default go to entries, causing loginas problem
+    url(r'^$', blogentry.index), # default go to entries, causing loginas problem
     url(r'^articles/', blogarticle.index),
     url(r'^products/', productsview.index),
-    url(r'^submit_basket/', productsview.submit),
 	url(r'^entry/(?P<slug>[^\.]+)/',  # for single entry
     	blogentry.view_post, 
     	name='view_entry'),
@@ -42,3 +41,4 @@ urlpatterns += url(r'^admin/', include('loginas.urls')),
 urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}))
+urlpatterns += url(r'^', blogentry.index), #NOTE: without $

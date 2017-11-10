@@ -20,16 +20,26 @@ div.scrollmenu {
 	text-decoration: none;
 }
 </style>
-<div class="container m-t-l">
-	<div class="scrollmenu row">
+<div class="container col-12 m-t-l" style="margin-left: 30px;">
+	
+	<div class="row">
 		{% for product in products %}
 
-		<div class="card" style="width: 20rem; display: inline-block;">
-			<img class="card-img-top img-thumbnail" style="width: 150px; height: 150px;" src="{{ product.picture.url }}" alt="product image">
+		<div class="card text-center" style="width: 20rem; display: inline-block;">
+			<img class="card-img-top img-thumbnail m-t-s" style="width: 150px; height: 150px;" src="{{ product.picture.url }}" alt="product image">
 			<div class="card-block">
 				<h4 class="card-title" style="color: black;">{{ product.name }}</h4>
-				<p class="card-text text-success">{{ product.price }}</p>
-				<a href="#add-{{product.id}}-{{ product.price }}" class="add btn btn-primary">Add to basket</a>
+
+				<p class="card-text text-success m-t-m">
+					<i class="remove fa fa-minus" style="cursor: pointer" aria-hidden="true"></i>
+
+					{{ product.price }}
+					
+					<i class="add fa fa-plus" style="cursor: pointer" aria-hidden="true"></i>
+
+				</p>
+				
+				
 			</div>
 		</div>
 		{% empty %}
@@ -37,13 +47,13 @@ div.scrollmenu {
 		{% endfor %}
 
 	</div>
-	<div class="row text-center">
-		<div class="fixed-bottom card m-b-s col-lg-4 col-md-6 col-sm-8 col-xs-8" style="margin-left: 10px; margin-right: 10px; padding-left: 20px;">
-			<h2 class="">Total price:</h2><p class="text-success" id="price">tutaj cena</p>
-			<form method="POST" id="buy-form">
-				{% csrf_token %}
-				<input type="submit" href="#" id="buy" value="Buy this crap" class="btn btn-success green m-b-s"></a>
-				<input type="hidden" value="{{ request.user.email }}" id=>
+	<div class="col-lg-5 col-md-5 col-sm-6 text-center m-t-l" style="position: fixed; bottom: 10px; right: 10px;">
+		<div class="card m-b-s" style="padding: 10px;">
+			<h2 class="">Your basket:</h2>
+			<ul class="text-danger list-group" id="order">add a product</ul>
+			<p class="text-success m-t-s" id="price">---</p>
+			<form id="buy-form">
+				<button id="buy" class="btn btn-success green m-b-s">Buy this crap</button>
 			</form>
 		</div>
 	</div>
@@ -52,46 +62,97 @@ div.scrollmenu {
 	$(document).ready(function() {
 		var totalPrice = 0;
 		var products = [];
-		$('#buy-form').on('submit', function(e) {
+		var productsCounter = [];
+		$('.add').on('click', add); // attaching click to buttons
+		$('.remove').on('click', remove);
+		function add(e) {
+			var price = parseFloat($(e.target).parent().text());
+			totalPrice += price; // counting price
+
+			var product = $(e.target).parent().parent().children().eq(0).html();
+			var existsInArray = jQuery.inArray(product, products);
+			if (existsInArray == -1) { // no product in array
+				products.push(product);
+				productsCounter.push(1);
+			} else {
+				productsCounter[existsInArray]++;
+			}
+			
+			var order = "";
+			for (var item in products) {
+				order += "<li class='list-group-item'>"+products[item]+" x"+productsCounter[item]+"</li>";
+			}
+			
+			$("#order").html(order);
+			$("#price").text(totalPrice.toFixed(2)+"zł");
+		} 
+		function remove(e) {
+			var price = parseFloat($(e.target).parent().text());
+			var product = $(e.target).parent().parent().children().eq(0).html();
+			var existsInArray = jQuery.inArray(product, products);
+			if (existsInArray == -1) { // no product in array
+				console.log('nothing in products');
+				return; // nothing to remove so returning
+			} else {
+				console.log('remove from products');
+				productsCounter[existsInArray]--;
+				var i = productsCounter[existsInArray];
+				if (i == 0) {
+					products = jQuery.grep(products, function(value) { // delete product from array
+						productsCounter[existsInArray] = 0; //resetting counter also
+						return value != product;
+					});
+				}
+				totalPrice -= price;
+				var order = "";
+				for (var item in products) {
+					order += "<li class='list-group-item'>"+products[item]+" x"+productsCounter[item]+"</li>";
+				}
+
+				$("#order").html(order);
+				$("#price").text(totalPrice.toFixed(2)+"zł");
+			}
+		}
+		$('#buy-form').on('click', function(e) {
 			e.preventDefault();
+			totalPrice = 0; //  resetting basket items and price
+			products = [];
+			productsCounter = [];
+			order = '';
+			//$('.add').off('click'); // disabling buttons while waiting 
 			SubmitBasket();
 		});
-		$('.add').click(function(e) {
-			$(e.target).attr('class', 'remove');
-			var price = parseInt($(e.target).parent().children().eq(1).html());
-			products.push($(e.target).parent().children().eq(0).html());
-			totalPrice += price;
-			
-			$("#price").text(products+", "+totalPrice+"zł");
-		});
-		$('.remove').click(function(e) {
-			$(e.target).attr('class', 'add');
-
-		});
+		
 		function SubmitBasket() {
-			alert(" {{ request.user.username }} ");
 			$.ajax({
+		type : "POST", // http method
         url : "submit_basket/", // the endpoint
-        type : "POST", // http method
-        data : { post : $('#price').val(), email : "{{ request.user.email }}" }, // data sent with the post request
+        data : { order : $('#order').text(), price: $('#price').text(), email : "{{ request.user.email }}" }, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
-            $('#price').text('Confirmation email sent'); // remove the value from the input
-            console.log(json); // log the returned json to the console
-            console.log("success"); // another sanity check
+
+        	$('#order').text('');
+        	if (json.email == '') { // if user has no email
+        		$('#price').text('Please create account with email'); 
+        	} else {
+        		$('#price').text('Confirmation sent: '+json.email); 
+        		$('#buy').hide();
+        	}
+            console.log(json.email); // displays whole products.html template
+            console.log("success"); // sanity check
         },
 
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
-        	$('#price').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        	$('#order').text('');
+        	$('#price').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error!</div>"); // add the error to the dom
+            //console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
         }
     });
 		};
 	});
-	
+
 </script>
 
 {% endblock %}

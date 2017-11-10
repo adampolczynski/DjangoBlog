@@ -59,14 +59,15 @@ INSTALLED_APPS = (
 LOGINAS_UPDATE_LAST_LOGIN = True
 LOGINAS_REDIRECT_URL = '/'
 
-# --- HIJACK
-# HIJACK_LOGIN_REDIRECT_URL = '/'  # Where admins are redirected to after hijacking a user
-# HIJACK_LOGOUT_REDIRECT_URL = '/admin/auth/user/'  # Where admins are redirected to after releasing a user
-# HIJACK_ALLOW_GET_REQUESTS = True
-# HIJACK_USE_BOOTSTRAP = True
-#HIJACK_BUTTON_TEMPLATE = (root)('static/hijack_admin/admin_button.html')
+# EMAIL CONFIGURATION
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'androdappshelper@gmail.com'
+EMAIL_HOST_PASSWORD = 'kurwa666!'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# --- STATIC FILES ---
+# --- STATIC ---
 STATIC_URL = '/static/'
 STATIC_ROOT = env('STATIC_ROOT', default=(root)('static'))
 

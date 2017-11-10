@@ -20,12 +20,14 @@ def count_comments_for_article(id):
 	model.comments_count=model.comments_count+1
 	model.save()
 	return 'adding 1 to article comments_count'
+	
 @task
 def send_confirmation_email(text,email):
 	send_mail(
 		'DjangoBlog shopping',
 		text,
-		'from@example.com',
+		'androdappshelper@gmail.com',
 		[email],
 		fail_silently=False,
 		)
+	return 'send confirmation should be sent bejbe'
