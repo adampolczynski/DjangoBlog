@@ -17,8 +17,3 @@ def view_post(request, slug):
         'post': get_object_or_404(Entry, slug=slug),
         'type': 'entry'
     }, context_instance=RequestContext(request)) # upgrade this
-
-def entries(request): # haystack view for custom form
-    form = EntriesSearchForm(request.GET)
-    entrys = form.search()
-    return render_to_response('search_result.html', {'entrys': entrys})

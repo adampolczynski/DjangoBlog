@@ -1,6 +1,6 @@
 {% load compress %}
 {% load staticfiles %}
-{% load hijack_tags %}
+
 <html>
 <head>
 	{% compress css %}
@@ -8,7 +8,6 @@
 	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="{% static 'css/blog-home.css' %}" type="text/css" charset="utf-8">
 	<link rel="stylesheet" href="{% static 'css/align.css' %}" type='text/css' charset="utf-8">
-	<link rel="stylesheet" href="{% static 'hijack/hijack-styles.css' %}" type="text/css" charset="utf-8">
 	<script src="{% static 'js/tether.min.js' %}"></script>
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -63,8 +62,6 @@
 
 		</div>
 	</nav>
-		{% hijack_notification %}
-
 	{% block content %}
 
 	{% endblock %}

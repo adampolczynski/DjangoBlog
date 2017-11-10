@@ -27,9 +27,10 @@ SITE_ID = env('SITE_ID')
 
 INSTALLED_APPS = (
     'suit',
-    'hijack',
-    'compat',
-    'hijack_admin',
+    # 'hijack',
+    # 'compat',
+    # 'hijack_admin',
+    'loginas', # hijack not working so using loginas maybe?
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +42,7 @@ INSTALLED_APPS = (
     'blog',
     'articles',
     'comments',
+    'products',
     'debug_toolbar',
     'compressor',
     'haystack',
@@ -53,11 +55,16 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
 )
-# --- for hijack
-HIJACK_LOGIN_REDIRECT_URL = '/'  # Where admins are redirected to after hijacking a user
-HIJACK_LOGOUT_REDIRECT_URL = '/admin/auth/user/'  # Where admins are redirected to after releasing a user
-HIJACK_ALLOW_GET_REQUESTS = True
-HIJACK_USE_BOOTSTRAP = True
+# LOGINAS
+LOGINAS_UPDATE_LAST_LOGIN = True
+LOGINAS_REDIRECT_URL = '/'
+
+# --- HIJACK
+# HIJACK_LOGIN_REDIRECT_URL = '/'  # Where admins are redirected to after hijacking a user
+# HIJACK_LOGOUT_REDIRECT_URL = '/admin/auth/user/'  # Where admins are redirected to after releasing a user
+# HIJACK_ALLOW_GET_REQUESTS = True
+# HIJACK_USE_BOOTSTRAP = True
+#HIJACK_BUTTON_TEMPLATE = (root)('static/hijack_admin/admin_button.html')
 
 # --- STATIC FILES ---
 STATIC_URL = '/static/'
@@ -71,7 +78,7 @@ STATICFILES_FINDERS = (
 
 # --- MEDIA ---
 MEDIA_URL = '/media/'
-MEDIA_ROOT = env('MEDIA_ROOT', default=(root - 1)('media'))
+MEDIA_ROOT = env('MEDIA_ROOT', default=(root)('media'))
 
 TEMPLATES = [
     {

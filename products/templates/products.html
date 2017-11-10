@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+div.scrollmenu {
+	position: absolute;
+	width: 100%;
+	background-color: grey;
+	overflow-x: scroll;
+	white-space: nowrap;
+}
+
+div.scrollmenu {
+	display: inline-block;
+	color: white;
+	text-align: center;
+	padding: 14px;
+	text-decoration: none;
+}
+</style>
+<div class="container m-t-l">
+	<div class="scrollmenu row">
+		{% for product in products %}
+
+		<div class="card" style="width: 20rem; display: inline-block;">
+			<img class="card-img-top img-thumbnail" style="width: 150px; height: 150px;" src="{{ product.picture.url }}" alt="product image">
+			<div class="card-block">
+				<h4 class="card-title" style="color: black;">{{ product.name }}</h4>
+				<p class="card-text text-success">{{ product.price }}</p>
+				<a href="#add-{{product.id}}-{{ product.price }}" class="add btn btn-primary">Add to basket</a>
+			</div>
+		</div>
+		{% empty %}
+		<p class="text-faded">No products here</p>
+		{% endfor %}
+
+	</div>
+	<div class="row text-center">
+		<div class="fixed-bottom card m-b-s col-lg-4 col-md-6 col-sm-8 col-xs-8" style="margin-left: 10px; margin-right: 10px; padding-left: 20px;">
+			<h2 class="">Total price:</h2><p class="text-success" id="price">tutaj cena</p>
+			<form method="POST" id="buy-form">
+				{% csrf_token %}
+				<input type="submit" href="#" id="buy" value="Buy this crap" class="btn btn-success green m-b-s"></a>
+				<input type="hidden" value="{{ request.user.email }}" id=>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function() {
+		var totalPrice = 0;
+		var products = [];
+		$('#buy-form').on('submit', function(e) {
+			e.preventDefault();
+			SubmitBasket();
+		});
+		$('.add').click(function(e) {
+			$(e.target).attr('class', 'remove');
+			var price = parseInt($(e.target).parent().children().eq(1).html());
+			products.push($(e.target).parent().children().eq(0).html());
+			totalPrice += price;
+			
+			$("#price").text(products+", "+totalPrice+"zł");
+		});
+		$('.remove').click(function(e) {
+			$(e.target).attr('class', 'add');
+
+		});
+		function SubmitBasket() {
+			alert(" {{ request.user.username }} ");
+			$.ajax({
+        url : "submit_basket/", // the endpoint
+        type : "POST", // http method
+        data : { post : $('#price').val(), email : "{{ request.user.email }}" }, // data sent with the post request
+
+        // handle a successful response
+        success : function(json) {
+            $('#price').text('Confirmation email sent'); // remove the value from the input
+            console.log(json); // log the returned json to the console
+            console.log("success"); // another sanity check
+        },
+
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+        	$('#price').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+        }
+    });
+		};
+	});
+	
+</script>
+
+{% endblock %}
