@@ -23,7 +23,7 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [])
 
 SECRET_KEY = env('SECRET_KEY')
 
-SITE_ID = env('SITE_ID')
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'suit',
