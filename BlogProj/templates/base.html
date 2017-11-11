@@ -13,10 +13,47 @@
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	{% endcompress %}
 	<title>{% block head_title %}Demo DjangoBlog{% endblock %}</title>
-
+	<style>
+	#search-button {
+		position: fixed;
+		top: 10px;
+		right: 10px;
+		z-index: 10;
+	}
+	#form-div {
+		background: black;
+		position: fixed;
+		bottom: 0px;
+		right: 0px;
+		z-index: 11;
+		width: 420px;
+	}
+	#insider {
+		margin-bottom: 10px;
+		float: right;
+		margin-right: 10px;
+		z-index: 12;
+		width: 400px;
+	}
+</style>
 
 </head>
 <body>
+	<button id="search-button" class="btn btn-success my-2 my-sm-0" href="#toggleSearch" data-toggle="collapse" data-target="#form-div">Show me search form!</button>
+	<div id="form-div" class="collapse">
+		<div id="insider">
+			<form class="form-group my-2 my-lg-0 autocomplete-me" type="get" action="/search/">
+				<div class="input-group m-t-s">
+					<input class="form-control" type="text" placeholder="Search" id="id_q" name="q">
+
+					<span class="input-group-button">
+						<button class="btn btn-success" type="submit">Search</button>
+					</span>
+				</div>
+
+			</form>
+		</div>
+	</div>
 	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -27,13 +64,25 @@
 			<ul class="navbar-nav mr-auto">
 
 				<li class="nav-item">
-					<a class="nav-link" href="/entries/">Entries<span class="sr-only">(current)</span></a>
+					<a {% if request.path == '/' %}
+					 class="nav-link active"
+					 {% else %}
+					 class="nav-link"
+					 {% endif %} href="/">Entries<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/articles/">Articles</a>
+					<a {% if request.path == '/articles/' %}
+					 class="nav-link active"
+					 {% else %}
+					 class="nav-link"
+					 {% endif %} href="/articles/">Articles</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/products/">Products</a>
+					<a {% if request.path == '/products/' %}
+					 class="nav-link active"
+					 {% else %}
+					 class="nav-link"
+					 {% endif %} href="/products/">Products</a>
 				</li>
 				<li class="nav-item" style="width: 40px;">
 				</li>
@@ -55,15 +104,97 @@
 				{% endif %}
 				
 			</ul>
-			<form class="form-inline my-2 my-lg-0" type="get" action="/search/.">
-				<input class="form-control mr-sm-2" type="text" placeholder="Search" name="q">
-				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-			</form>
 
 		</div>
 	</nav>
-	{% block content %}
 
-	{% endblock %}
+	<script type="text/javascript">
+    // In a perfect world, this would be its own library file that got included
+    // on the page and only the ``$(document).ready(...)`` below would be present.
+    // But this is an example.
+    var Autocomplete = function(options) {
+    	this.form_selector = options.form_selector
+    	this.url = options.url || '/search/autocomplete/'
+    	this.delay = parseInt(options.delay || 300)
+    	this.minimum_length = parseInt(options.minimum_length || 3)
+    	this.form_elem = null
+    	this.query_box = null
+    }
+
+    Autocomplete.prototype.setup = function() {
+    	var self = this
+
+    	this.form_elem = $(this.form_selector)
+    	this.query_box = this.form_elem.find('input[name=q]')
+
+      // Watch the input box.
+      this.query_box.on('keyup', function() {
+      	var query = self.query_box.val()
+
+      	if(query.length < self.minimum_length) {
+      		return false
+      	}
+
+      	self.fetch(query)
+      })
+
+      // On selecting a result, populate the search field.
+      this.form_elem.on('click', '.ac-result', function(ev) {
+      	self.query_box.val($(this).text())
+      	$('.ac-results').remove()
+      	return false
+      })
+  }
+
+  Autocomplete.prototype.fetch = function(query) {
+  	var self = this
+
+  	$.ajax({
+  		url: this.url
+  		, data: {
+  			'q': query
+  		}
+  		, success: function(data) {
+  			self.show_results(data)
+  		}
+  	})
+  }
+
+  Autocomplete.prototype.show_results = function(data) {
+      // Remove any existing results.
+      $('.ac-results').remove()
+
+      var results = data.results || []
+      var results_wrapper = $('<ul class="list-group ac-results"></ul>')
+      var base_elem = $('<li class="list-group-item result-wrapper"><a href="#" class="ac-result"></a></li>')
+
+      if(results.length > 0) {
+      	for(var res_offset in results) {
+      		var elem = base_elem.clone()
+          // Don't use .html(...) here, as you open yourself to XSS.
+          // Really, you should use some form of templating.
+          elem.find('.ac-result').text(results[res_offset])
+          results_wrapper.append(elem)
+      }
+  }
+  else {
+  	var elem = base_elem.clone()
+  	elem.text("No results found.")
+  	results_wrapper.append(elem)
+  }
+
+  this.query_box.parent().after(results_wrapper)
+}
+
+$(document).ready(function() {
+	window.autocomplete = new Autocomplete({
+		form_selector: '.autocomplete-me'
+	})
+	window.autocomplete.setup()
+})
+</script>
+{% block content %}
+
+{% endblock %}
 </body>
 </html>

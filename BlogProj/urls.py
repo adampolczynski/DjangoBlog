@@ -10,18 +10,16 @@ from articles import views as blogarticle
 from products import views as productsview
 from comments.views import CommentView
 
-if settings.DEBUG:			# because of jdtd template rendering error while DEBUG true
-	import debug_toolbar
-
 urlpatterns = [ # need to clean those urls, it is messy
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/', include('registration.backends.simple.urls',)),
     url(r'^allauth/', include('allauth.urls',)), #django registration
+    # search stuff
     url(r'^search/', include('haystack.urls')),
-    url(r'^entries/', blogentry.index),
-    url(r'^$', blogentry.index), # default go to entries, causing loginas problem
+    url(r'^search/autocomplete/', blogentry.autocomplete),
+    # 
     url(r'^articles/', blogarticle.index),
     url(r'^products/', productsview.index),
 	url(r'^entry/(?P<slug>[^\.]+)/',  # for single entry
@@ -33,10 +31,12 @@ urlpatterns = [ # need to clean those urls, it is messy
 
     url(r'^add_comment/$', CommentView.as_view()),
 
-    url(r'^__debug+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)__/', include(debug_toolbar.urls)), # look up, below imports
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-#urlpatterns += url(r'^hijack/', include('hijack.urls')), # for logging as other user
 urlpatterns += url(r'^admin/', include('loginas.urls')),
 urlpatterns += url(r'^media/(?P<path>.*)$', serve),
-urlpatterns += url(r'^', blogentry.index), #NOTE: without $
+urlpatterns += url(r'^', blogentry.index), # MAIN PAGE - entries
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += url(r'^__debug__/', include(debug_toolbar.urls)), # look up, below imports

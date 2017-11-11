@@ -112,8 +112,8 @@
 		
 		function SubmitBasket() {
 			$.ajax({
-		type : "POST", // http method
-        url : "submit_basket/", // the endpoint
+		type : "POST", 
+        url : "submit_basket/", 
         data : { order : $('#order').text(), price: $('#price').text(), email : "{{ request.user.email }}" }, // data sent with the post request
 
         // handle a successful response
@@ -126,7 +126,7 @@
         		$('#price').text('Confirmation sent: '+json.email); 
         		$('#buy').hide();
         	}
-            console.log(json.email); // displays whole products.html template
+            //console.log(json.email); 
             console.log("success"); // sanity check
         },
 
