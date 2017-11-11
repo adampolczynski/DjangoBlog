@@ -23,14 +23,10 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', [])
 
 SECRET_KEY = env('SECRET_KEY')
 
-SITE_ID = 1
+SITE_ID = env('SITE_ID')
 
 INSTALLED_APPS = (
-    'suit',
-    # 'hijack',
-    # 'compat',
-    # 'hijack_admin',
-    'loginas', # hijack not working so using loginas maybe?
+    'suit', # must be before admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,11 +39,10 @@ INSTALLED_APPS = (
     'articles',
     'comments',
     'products',
+    'loginas',
     'debug_toolbar',
     'compressor',
     'haystack',
-    #'registration', while using one-step workflow it is not necessary
-
     'celery',
     'allauth', #all auth
     'allauth.account',
