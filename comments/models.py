@@ -14,11 +14,11 @@ class Comment(models.Model):
 		Entry,on_delete=models.CASCADE, null=True, related_name="comments")
 	article = models.ForeignKey(
 		Article, on_delete=models.CASCADE, null=True, related_name="comments")
-	user = models.CharField(max_length=20, default='guest') # only username fo relation is not needed
+	user = models.CharField(max_length=20, default='guest') # no relation needed for now
 
 	def save(self, *args, **kwargs):
 		if (self.entry is None): # if we actually submit comment for article
-			count_comments_for_article.delay(self.article.id)
+			count_comments_for_article.delay(self.article.id) # send email with celery
 		else:
 			count_comments_for_entry.delay(self.entry.id)
 		super(Comment, self).save(*args, **kwargs)

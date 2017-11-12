@@ -24,12 +24,7 @@
 		padding: 5px;
 		padding-left: 12px;
 	}
-	#search-button {
-		position: fixed;
-		top: 10px;
-		right: 10px;
-		z-index: 10;
-	}
+
 	#form-div {
 		background: black;
 		position: fixed;
@@ -49,7 +44,7 @@
 
 </head>
 <body>
-	<button id="search-button" class="btn btn-success my-2 my-sm-0" href="#toggleSearch" data-toggle="collapse" data-target="#form-div">Toggle search form!</button>
+	
 	<div id="form-div" class="collapse">
 		<div id="insider">
 			<form class="form-group my-2 my-lg-0 autocomplete-me" type="get" action="/search/">
@@ -64,7 +59,7 @@
 			</form>
 		</div>
 	</div>
-	<nav class="navbar navbar-inverse navbar-toggleable-md bg-inverse">
+	<nav class="navbar navbar-inverse fixed-top navbar-toggleable-md bg-inverse">
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -75,24 +70,24 @@
 
 				<li class="nav-item">
 					<a {% if request.path == '/' %}
-					 class="nav-link active"
-					 {% else %}
-					 class="nav-link"
-					 {% endif %} href="/">Entries<span class="sr-only">(current)</span></a>
+					class="nav-link active"
+					{% else %}
+					class="nav-link"
+					{% endif %} href="/">Entries<span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
 					<a {% if request.path == '/articles/' %}
-					 class="nav-link active"
-					 {% else %}
-					 class="nav-link"
-					 {% endif %} href="/articles/">Articles</a>
+					class="nav-link active"
+					{% else %}
+					class="nav-link"
+					{% endif %} href="/articles/">Articles</a>
 				</li>
 				<li class="nav-item">
 					<a {% if request.path == '/products/' %}
-					 class="nav-link active"
-					 {% else %}
-					 class="nav-link"
-					 {% endif %} href="/products/">Products</a>
+					class="nav-link active"
+					{% else %}
+					class="nav-link"
+					{% endif %} href="/products/">Products</a>
 				</li>
 				<li class="nav-item" style="width: 40px;">
 				</li>
@@ -112,16 +107,15 @@
 					<a class="nav-link" href="/accounts/register/">Register</a>
 				</li>
 				{% endif %}
-				
-			</ul>
 
+			</ul>
+			<button id="search-button" class="btn btn-success my-2 my-sm-0" href="#toggleSearch" data-toggle="collapse" data-target="#form-div">Toggle search form!</button>
 		</div>
 	</nav>
 
 	<script type="text/javascript">
-    // In a perfect world, this would be its own library file that got included
-    // on the page and only the ``$(document).ready(...)`` below would be present.
-    // But this is an example.
+    // cos for getting autocomplete suggestions
+    
     var Autocomplete = function(options) {
     	this.form_selector = options.form_selector
     	this.url = options.url || '/search/autocomplete/'
@@ -203,6 +197,7 @@ $(document).ready(function() {
 	window.autocomplete.setup()
 })
 </script>
+<div style="height: 7%;"></div>
 {% block content %}
 
 {% endblock %}

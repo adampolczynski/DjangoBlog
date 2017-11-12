@@ -33,7 +33,7 @@ class ArticleIndex(indexes.SearchIndex, indexes.Indexable):
 class CommentsIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     body = indexes.EdgeNgramField(model_attr='body')
-
+    title = indexes.EdgeNgramField(model_attr='body')
     def get_model(self):
     	return Comment
 

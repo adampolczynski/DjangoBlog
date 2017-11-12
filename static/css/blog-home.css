@@ -6,10 +6,12 @@
 
 body {
   background-color: grey;
+  
 }
 
 @media (min-width: 992px) {
   body {
 	padding-bottom: 10px;
   }
+ 
 }

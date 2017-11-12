@@ -4,6 +4,7 @@
 {% block content %}
 <!-- Page Content -->
 <div class="container">
+  {{ form }}
   <h1 class="my-4">
     {% if type == 'entry' %}
     My blog entries
@@ -20,7 +21,7 @@
 
     <div class="col-md-12">
       <div class="card mb-4">
-        <div class="card-body m-t-s" style="padding-left: 15px">
+        <div class="card-body m-t-s" style="padding-left: 15px; padding-right: 15px;">
           <h2 class="card-title">{{ post.title }}</h2>
           <hr>
           <p class="card-text">{{ post.body }}</p>

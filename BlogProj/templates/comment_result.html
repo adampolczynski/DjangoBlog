@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+	{% if valid %}
+	<h1 class="my-4">Success my dear user<hr>
+		<small>Comment added successfully</small>
+		
+
+	</h1>
+	{% else %}
+	<h1 class="my-4">Error my dear user<hr>
+		<small>Comment cannot be empty or longer than 120 signs</small>
+
+	</h1>
+	{% endif %}
+</div>
+
+
+{% endblock %}
