@@ -1,14 +1,13 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from datetime import date
-
+from django.utils import timezone
 # Create your models here.
 
 class PastEntry(models.Manager): # manager that filters objects by time less than today
 	
 	def get_queryset(self):
-		today = date.today()
-		return super(PastEntry, self).get_queryset().filter(pub_date__lt=today).order_by('-id')
+		today = timezone.now()
+		return super(PastEntry, self).get_queryset().filter(pub_date__lte=today).order_by('-pub_date')
 
 class Entry(models.Model):
 	class Meta:
