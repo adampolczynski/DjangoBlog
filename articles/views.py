@@ -10,7 +10,7 @@ def index(request):
         'type': 'article'
     }, context_instance=RequestContext(request)) # deprecated
 
-def view_post(request, slug):   
+def single_post(request, slug):   
     return render_to_response('entry.html', {
         'post': get_object_or_404(Article, slug=slug),
         'type': 'article'

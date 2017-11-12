@@ -12,16 +12,16 @@ def index(request):
         'type': 'entry'
     }, context_instance=RequestContext(request)) 
 
-def view_post(request, slug):   
+def single_post(request, slug):   
     return render_to_response('entry.html', {
         'post': get_object_or_404(Entry, slug=slug),
         'type': 'entry'
     }, context_instance=RequestContext(request)) 
 
-def autocomplete(request):
+def autocomplete(request): # for haystack
 	print('autocomplete---------------')
 	sqs = SearchQuerySet().autocomplete(body=request.GET.get('q', ''))[:5]
-	suggestions = [result.body[:20] for result in sqs]
+	suggestions = [result.body[:30].strip("[]") for result in sqs]
 	# Make sure you return a JSON object, not a bare list.
 	# Otherwise, you could be vulnerable to an XSS attack.
 	the_data = json.dumps({'results': suggestions})

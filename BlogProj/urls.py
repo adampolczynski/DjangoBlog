@@ -7,7 +7,7 @@ from django.views.static import serve
 # importing views
 from blog import views as blogentry
 from articles import views as blogarticle
-from products import views as productsview
+from products import views as products
 from comments.views import CommentView
 
 urlpatterns = [ # need to clean those urls, it is messy
@@ -21,13 +21,13 @@ urlpatterns = [ # need to clean those urls, it is messy
     url(r'^search/autocomplete/', blogentry.autocomplete),
     # 
     url(r'^articles/', blogarticle.index),
-    url(r'^products/', productsview.index),
+    url(r'^products/', products.index),
 	url(r'^entry/(?P<slug>[^\.]+)/',  # for single entry
-    	blogentry.view_post, 
-    	name='view_entry'),
+    	blogentry.single_post, 
+    	name='single_entry'),
     url(r'^article/(?P<slug>[^\.]+)/', # for single article 
-    	blogarticle.view_post, 
-    	name='view_article'),
+    	blogarticle.single_post, 
+    	name='single_article'),
 
     url(r'^add_comment/$', CommentView.as_view()),
 

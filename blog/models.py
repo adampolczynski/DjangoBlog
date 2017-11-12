@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from datetime import date
+
 # Create your models here.
 
 class PastEntry(models.Manager): # manager that filters objects by time less than today
@@ -25,7 +26,7 @@ class Entry(models.Model):
 
 	def get_absolute_url(self): # get url to single entry
 		return "/entry/%s/" % self.slug
-
+	
 	def save(self, *args, **kwargs):
 	        self.slug = slugify(self.title)
 	        super(Entry, self).save(*args, **kwargs)

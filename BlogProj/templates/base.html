@@ -14,6 +14,16 @@
 	{% endcompress %}
 	<title>{% block head_title %}Demo DjangoBlog{% endblock %}</title>
 	<style>
+	.ac-results {
+		margin-top: 4px;
+	}
+	.result-wrapper {
+		padding: 0px;
+	}
+	.ac-result {
+		padding: 5px;
+		padding-left: 12px;
+	}
 	#search-button {
 		position: fixed;
 		top: 10px;
@@ -39,12 +49,12 @@
 
 </head>
 <body>
-	<button id="search-button" class="btn btn-success my-2 my-sm-0" href="#toggleSearch" data-toggle="collapse" data-target="#form-div">Show me search form!</button>
+	<button id="search-button" class="btn btn-success my-2 my-sm-0" href="#toggleSearch" data-toggle="collapse" data-target="#form-div">Toggle search form!</button>
 	<div id="form-div" class="collapse">
 		<div id="insider">
 			<form class="form-group my-2 my-lg-0 autocomplete-me" type="get" action="/search/">
 				<div class="input-group m-t-s">
-					<input class="form-control" type="text" placeholder="Search" id="id_q" name="q">
+					<input autocomplete="off" class="form-control" type="text" placeholder="Search" id="id_q" name="q" autofocus>
 
 					<span class="input-group-button">
 						<button class="btn btn-success" type="submit">Search</button>
@@ -54,7 +64,7 @@
 			</form>
 		</div>
 	</div>
-	<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<nav class="navbar navbar-inverse navbar-toggleable-md bg-inverse">
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -166,7 +176,7 @@
 
       var results = data.results || []
       var results_wrapper = $('<ul class="list-group ac-results"></ul>')
-      var base_elem = $('<li class="list-group-item result-wrapper"><a href="#" class="ac-result"></a></li>')
+      var base_elem = $('<li class="list-group-item result-wrapper"><a href="#" class="nav-link ac-result"></a></li>')
 
       if(results.length > 0) {
       	for(var res_offset in results) {

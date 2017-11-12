@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.twitter',
 )
 # LOGINAS
-LOGINAS_UPDATE_LAST_LOGIN = True
+LOGINAS_UPDATE_LAST_LOGIN = False
 LOGINAS_REDIRECT_URL = '/'
 
 # EMAIL CONFIGURATION
@@ -59,7 +59,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'androdappshelper@gmail.com'
-EMAIL_HOST_PASSWORD = 'kurwa666!'
+EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # --- STATIC ---
@@ -129,8 +129,6 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_EMAIL_REQUIRED = False
 SOCIALACCOUNT_QUERY_EMAIL = True
-# SOCIAL_AUTH_FACEBOOK_KEY = 'secret!'  # App ID
-# SOCIAL_AUTH_FACEBOOK_SECRET ='secret!' #app key
 
 # login/logout redirections
 LOGOUT_REDIRECT_URL = '/'
@@ -170,9 +168,8 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = None
 # --- POSTGRESQL
 DATABASES = {
     'default': env.db(
-        default='postgres://soixvngf:eoXGFRZbpl8UH25E_w7CUnQPQfx_97MM@baasu.db.elephantsql.com:5432/soixvngf'),
-        #default='postgres://postgres:@localhost:5432/postgres'),
-
+        default=env('DB_POSTGRES')
+        ),
 }
 # broker for celery tasks
 BROKER_URL = 'django://'
@@ -181,7 +178,7 @@ BROKER_URL = 'django://'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://127.0.0.1:8983/solr/core'
+        'URL': env('SOLR_URL')
     },
 }
 
@@ -206,20 +203,3 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # --- DJANGO COMPRESSOR ---
 STATICFILES_FINDERS += ('compressor.finders.CompressorFinder',)
-
-# --- CACHE ---
-# {
-#     'default': {
-#         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-#         'TIMEOUT': 300,
-#     }
-# }
-
-# --- DJANGO REGISTRATION REDUX ---
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_AUTO_LOGIN = False
-
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
-INTERNAL_IPS = ['127.0.0.1']
-
-

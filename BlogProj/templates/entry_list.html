@@ -4,8 +4,15 @@
 {% block content %}
 <!-- Page Content -->
 <div class="container">
-  <h1 class="my-4">My blog {{type}}
-    <small>, written in dżango</small>
+  <h1 class="my-4">
+    {% if type == 'entry' %}
+    My blog entries
+    <small>, powered by dżango</small>
+
+    {% else %}
+    My blog articles
+    <small>, powered by dżango</small>
+    {% endif %}
   </h1>
   <div class="row">
     {% if posts %}
@@ -30,21 +37,21 @@
         <div class="collapse" id="comments{{ post.id }}">
           <div class="card card-block">
             <form class="form-group" method='POST' action='/add_comment/'> 
-                {% csrf_token %}
-                <input type='hidden' value='{{ post.id }}' name='id'>
-                {% if request.user.is_authenticated %}
-                <input type='hidden' value='{{ request.user.username }}' name='user'>
+              {% csrf_token %}
+              <input type='hidden' value='{{ post.id }}' name='id'>
+              {% if request.user.is_authenticated %}
+              <input type='hidden' value='{{ request.user.username }}' name='user'>
 
-                {% else %}
-                <input type='hidden' value='guest' name='user'>
+              {% else %}
+              <input type='hidden' value='guest' name='user'>
 
-                {% endif %}
-                <input type='hidden' value='{{ type }}' name='type'>
+              {% endif %}
+              <input type='hidden' value='{{ type }}' name='type'>
 
-                <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
+              <textarea class="form-control" name="body" placeholder="Do you want to comment this?" ></textarea>
 
-                <button type="submit" class="btn btn-success green form-control"> Add comment</button>
-              </form>
+              <button type="submit" class="btn btn-success green form-control"> Add comment</button>
+            </form>
             <ul class="list-group list-group-flush">
               {% if post.comments %}
               {% for comment in post.comments.all|dictsortreversed:"id" %}
