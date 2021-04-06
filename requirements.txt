@@ -18,7 +18,7 @@ django-environ==0.4.4
 -e git+https://github.com/django-haystack/django-haystack.git@3f6016e107adefa40a681fa467d6fa9b8b431426#egg=django_haystack
 django-loginas==0.3.3
 django-mongodb-engine==0.6.0
-django-registration==2.0
+django-registration==3.1.2
 django-suit==0.2.25
 djangotoolbox==1.8.0
 future==0.16.0
